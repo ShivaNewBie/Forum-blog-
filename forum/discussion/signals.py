@@ -3,7 +3,7 @@ from django.dispatch import receiver
 from django.utils.crypto import get_random_string
 from django.utils.text import slugify
 
-from .models import Discussion
+from .models import Discussion, Category
 
 
 @receiver(pre_save,sender=Discussion)
@@ -12,3 +12,9 @@ def add_slug_to_discussion(sender, instance, *args,**kwargs):
         slug = slugify(instance.title)
         random_string = get_random_string(length=8)
         instance.slug = slug + '-' + random_string
+
+@receiver(pre_save, sender=Category)
+def add_title_to_slug(sender, instance, *args, **kwargs):
+    if instance: 
+        title = instance.title
+        instance.slug = instance.title.lower()    
