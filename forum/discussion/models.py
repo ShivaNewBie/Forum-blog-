@@ -25,3 +25,13 @@ class Discussion(models.Model):
    
     def __str__(self):
         return self.title
+
+class Answer(models.Model):
+    body = models.TextField()
+    discussion = models.ForeignKey(Discussion, on_delete=models.CASCADE, related_name='answers')
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='answers')
+    likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='likes', blank=True,null=True) #answer can have many likes
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    def __str__(self):
+        return self.author.username

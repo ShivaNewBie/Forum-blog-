@@ -6,9 +6,9 @@ from rest_framework.views import APIView
 
 
 
-from discussion.models import Discussion, Category
+from discussion.models import Discussion, Category, Answer
 
-from .serializers import CategorySerializer, DiscussionSerializer
+from .serializers import CategorySerializer, DiscussionSerializer, AnswerSerializer
 
 class DiscussionViewSet(viewsets.ModelViewSet):
     queryset = Discussion.objects.all()
@@ -32,3 +32,11 @@ class CategoryDetail(generics.RetrieveDestroyAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
     lookup_field = 'slug'
+
+class AnswerListAPIView(generics.ListAPIView):
+    serializer_class = AnswerSerializer
+
+    def get_queryset(self):
+        kwarg_slug = self.kwargs.get('slug')
+        return Answer.objects.filter(discussion__slug=kwarg_slug) #we want a url where answer will be based on discussion thus we will lookup on discussion slug
+

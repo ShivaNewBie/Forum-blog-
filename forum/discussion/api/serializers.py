@@ -1,6 +1,6 @@
 from rest_framework import serializers
 
-from discussion.models import Discussion, Category  
+from discussion.models import Discussion, Category, Answer
 
 
 class DiscussionSerializer(serializers.ModelSerializer):
@@ -21,3 +21,14 @@ class CategorySerializer(serializers.ModelSerializer):
         model = Category
         fields = ['title','discussions','slug']
 
+
+class AnswerSerializer(serializers.ModelSerializer):
+    author = serializers.StringRelatedField()
+    discussion_slug = serializers.SerializerMethodField()
+
+    class Meta:     
+        model = Answer
+        exclude = ['discussion', 'likes', 'updated_at']
+
+    def get_discussion_slug(self,instance):
+        return instance.discussion.slug
