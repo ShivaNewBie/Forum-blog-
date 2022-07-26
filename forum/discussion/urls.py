@@ -12,6 +12,8 @@ urlpatterns = [
 
     path('discussions/<slug:slug>/answers/', dv.AnswerListAPIView.as_view(), name='answer-list'),
 
+    path('answers/<uuid:uuid>/', dv.AnswerRUDAPIView.as_view(), name='answer-rud'),
+
     path('categories/', dv.CategoryList.as_view(),name='category-list'),
     path('categories/create/',dv.CategoryCreateAPIView.as_view(), name='category-create' ),
     path('categories/<slug:slug>/', dv.CategoryDetail.as_view(), name='category-detail')

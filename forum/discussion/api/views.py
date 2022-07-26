@@ -40,3 +40,7 @@ class AnswerListAPIView(generics.ListAPIView):
         kwarg_slug = self.kwargs.get('slug')
         return Answer.objects.filter(discussion__slug=kwarg_slug) #we want a url where answer will be based on discussion thus we will lookup on discussion slug
 
+class AnswerRUDAPIView(generics.RetrieveUpdateAPIView):
+    queryset = Answer.objects.all()
+    serializer_class = AnswerSerializer
+    lookup_field = 'uuid'

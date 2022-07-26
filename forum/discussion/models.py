@@ -1,6 +1,8 @@
 from django.db import models
 from django.conf import settings
 
+import uuid as uuid_lib
+
 # Create your models here.
 
 class Category(models.Model):
@@ -15,6 +17,7 @@ class Category(models.Model):
         return self.title
 
 class Discussion(models.Model):
+    uuid = models.UUIDField(db_index=True, default=uuid_lib.uuid4, editable=False)
     category_name = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='discussions')
     title = models.CharField(max_length=255)
     body = models.TextField(max_length=255)
@@ -27,11 +30,13 @@ class Discussion(models.Model):
         return self.title
 
 class Answer(models.Model):
+    uuid = models.UUIDField(db_index=True, default=uuid_lib.uuid4, editable=False)
     body = models.TextField()
     discussion = models.ForeignKey(Discussion, on_delete=models.CASCADE, related_name='answers')
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='answers')
     likes = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='likes', blank=True,null=True) #answer can have many likes
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    
     def __str__(self):
         return self.author.username
