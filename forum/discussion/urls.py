@@ -13,4 +13,6 @@ urlpatterns = [
     path('categories/create/',dv.CategoryCreateAPIView.as_view(), name='category-create' ),
     path('categories/<slug:slug>/', dv.CategoryDetail.as_view(), name='category-detail')
 
+    
+
 ]
