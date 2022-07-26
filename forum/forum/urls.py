@@ -22,6 +22,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path("api/v1/", include("discussion.urls")),
 
+    path("api-auth/", include("rest_framework.urls")),
+
+
+    path('auth/', include('djoser.urls')),
+    path('auth/', include('djoser.urls.authtoken')),
 
     re_path(r"^.*$", IndexTemplateView.as_view(),name='entry-point') #entry point
 ]
