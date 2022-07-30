@@ -11,6 +11,7 @@ urlpatterns = [
     path('', include(router.urls)),
 
     path('discussions/<slug:slug>/answers/', dv.AnswerListAPIView.as_view(), name='answer-list'),
+    path('discussions/<slug:slug>/answer/', dv.AnswerCreateAPIView.as_view(), name='answer-create'),
 
     path('answers/<uuid:uuid>/', dv.AnswerRUDAPIView.as_view(), name='answer-rud'),
 

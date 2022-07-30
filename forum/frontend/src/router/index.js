@@ -24,8 +24,27 @@ const routes = [
     // this generates a separate chunk (about.[hash].js) for this route
     // which is lazy-loaded when the route is visited.
     component: () =>
-      import(/* webpackChunkName: "about" */ "../views/Discussion_form.vue"),
+      import(/* webpackChunkName: "about" */ "../views/DiscussionForm.vue"),
     props: true,
+  },
+  {
+    path: "/answers/:uuid",
+    name: "answer-editor",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/AnswerForm.vue"),
+    props: true,
+  },
+  {
+    path: "/categories/:slug",
+    name: "category",
+    // route level code-splitting
+    // this generates a separate chunk (about.[hash].js) for this route
+    // which is lazy-loaded when the route is visited.
+    component: () =>
+      import(/* webpackChunkName: "about" */ "../views/Category.vue"),
   },
 ];
 

@@ -33,9 +33,14 @@
               Dropdown button
             </button>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#">Action</a></li>
-              <li><a class="dropdown-item" href="#">Another action</a></li>
-              <li><a class="dropdown-item" href="#">Something else here</a></li>
+              <li>
+                <router-link
+                  v-for="category in categories"
+                  class="dropdown-item"
+                  :to="{ name: 'category', params: { slug: category.slug } }"
+                  >{{ category.slug }}</router-link
+                >
+              </li>
             </ul>
           </div>
         </ul>
@@ -60,7 +65,34 @@
 </template>
 
 <script>
+import { axios } from "@/common/api.service.js";
+
 export default {
   name: "Navbar",
+  data() {
+    return {
+      categories: [],
+    };
+  },
+  props: {
+    category: {
+      type: String,
+    },
+  },
+  methods: {
+    async getCategories() {
+      let endpoint = "/api/v1/categories/";
+      try {
+        const response = await axios.get(endpoint);
+        this.categories = response.data.results;
+        // console.log(response.data.results);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
+  created() {
+    this.getCategories();
+  },
 };
 </script>

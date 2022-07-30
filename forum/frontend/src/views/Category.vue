@@ -1,7 +1,9 @@
 <template>
   <div class="home mt-3">
     <div class="container">
-      <div v-for="discussion in discussions" :key="discussion.uuid">
+      <h1>{{ category.title }}</h1>
+
+      <div v-for="discussion in category.discussions" :key="discussion.uuid">
         <div class="shadow p-3 mb-5 bg-body rounded">
           <div class="card-body">
             <p class="mb-0">
@@ -21,7 +23,7 @@
         <p v-show="loading">...loading...</p>
         <button
           v-show="next"
-          @click="getDiscussions"
+          @click="getCategories"
           class="btn btn-sm btn-outline-success"
         >
           Load More
@@ -32,35 +34,28 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import { axios } from "@/common/api.service.js";
 
 export default {
-  name: "HomeView",
+  name: "Category",
   data() {
     return {
-      discussions: [],
+      category: {
+        discussions: [],
+      },
       next: null,
       loading: false,
     };
   },
-  components: {},
+
   methods: {
-    async getDiscussions() {
-      let endpoint = "/api/v1/discussions/";
-      if (this.next) {
-        endpoint = this.next;
-      }
-      this.loading = true;
+    async getCategory() {
+      const categorySlug = this.$route.params.slug;
+      let endpoint = `/api/v1/categories/${categorySlug}/`;
+
       try {
         const response = await axios.get(endpoint);
-        this.discussions.push(...response.data.results);
-        if (response.data.next) {
-          this.next = response.data.next;
-        } else {
-          this.next = null;
-        }
-        this.loading = false;
+        this.category = response.data;
         console.log(response);
       } catch (error) {
         console.log(error.response);
@@ -68,24 +63,14 @@ export default {
     },
   },
   created() {
-    this.getDiscussions();
+    this.getCategory(),
+      this.$watch(
+        () => this.$route.params,
+        (toParams, previousParams) => {
+          // react to route changes...
+          this.getCategory();
+        }
+      );
   },
 };
 </script>
-
-<style>
-.discussion-author {
-  font-weight: bold;
-  color: #dc3545;
-}
-
-.discussion-link {
-  font-weight: 400;
-  color: black;
-  text-decoration: none;
-}
-
-.discussion-link:hover {
-  color: #343a40;
-}
-</style>

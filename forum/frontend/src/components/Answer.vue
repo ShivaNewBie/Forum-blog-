@@ -7,6 +7,10 @@
 export default {
   name: "Answer",
   props: {
+    uuid: {
+      type: String,
+      required: true,
+    },
     answer: {
       type: Object,
       required: true,
