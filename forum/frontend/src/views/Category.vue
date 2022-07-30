@@ -56,6 +56,8 @@ export default {
       try {
         const response = await axios.get(endpoint);
         this.category = response.data;
+        this.document.title = response.data.title;
+
         console.log(response);
       } catch (error) {
         console.log(error.response);

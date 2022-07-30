@@ -34,7 +34,7 @@
       </div>
     </div>
     <div v-else>
-      <h1 class="error text-center">404 - Question not found</h1>
+      <h1 class="error text-center">404 - Discussion not found</h1>
     </div>
 
     <div>
@@ -42,7 +42,9 @@
         v-for="answer in answers"
         :key="answer.uuid"
         :answer="answer"
+        :requestUser="requestUser"
         :uuid="answer.uuid"
+        @delete-answer="deleteAnswer"
       />
     </div>
     <div class="my-4">
@@ -126,6 +128,16 @@ export default {
           this.next = null;
         }
         // console.log(response);
+      } catch (error) {
+        console.log(error.response);
+      }
+    },
+    async deleteAnswer(answer) {
+      const endpoint = `/api/v1/answers/${answer.uuid}/`;
+      try {
+        await axios.delete(endpoint);
+        this.answers.splice(this.answers.indexOf(answer), 1); //changes the contents of an array by removing or replacing existing elements and/or adding new elements in place
+        this.userHasAnswered = false;
       } catch (error) {
         console.log(error.response);
       }

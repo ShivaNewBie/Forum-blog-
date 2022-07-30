@@ -56,7 +56,7 @@ class AnswerCreateAPIView(generics.CreateAPIView):
         
         serializer.save(author=request_user,discussion=discussion)
 
-class AnswerRUDAPIView(generics.RetrieveUpdateAPIView):
+class AnswerRUDAPIView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Answer.objects.all()
     serializer_class = AnswerSerializer
     lookup_field = 'uuid'

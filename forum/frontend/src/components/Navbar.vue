@@ -30,7 +30,7 @@
               data-bs-toggle="dropdown"
               aria-expanded="false"
             >
-              Dropdown button
+              Categories
             </button>
             <ul class="dropdown-menu">
               <li>
