@@ -74,18 +74,14 @@ export default {
       categories: [],
     };
   },
-  props: {
-    category: {
-      type: String,
-    },
-  },
+
   methods: {
     async getCategories() {
       let endpoint = "/api/v1/categories/";
       try {
         const response = await axios.get(endpoint);
-        this.categories = response.data;
-        console.log(response.data);
+        this.categories = response.data.results;
+        // console.log(response.data.results);
       } catch (error) {
         console.log(error);
       }

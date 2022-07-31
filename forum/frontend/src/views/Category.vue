@@ -3,7 +3,7 @@
     <div class="container">
       <h1>{{ category.title }}</h1>
 
-      <div v-for="discussion in category.discussions" :key="discussion.uuid">
+      <div v-for="discussion in category.discussions" :key="discussion.slug">
         <div class="shadow p-3 mb-5 bg-body rounded">
           <div class="card-body">
             <p class="mb-0">
@@ -35,7 +35,6 @@
 
 <script>
 import { axios } from "@/common/api.service.js";
-
 export default {
   name: "Category",
   data() {
@@ -47,32 +46,29 @@ export default {
       loading: false,
     };
   },
-
   methods: {
     async getCategory() {
       const categorySlug = this.$route.params.slug;
       let endpoint = `/api/v1/categories/${categorySlug}/`;
-
       try {
         const response = await axios.get(endpoint);
         this.category = response.data;
-        this.document.title = response.data.title;
-
         console.log(response);
+        console.log("test");
       } catch (error) {
-        console.log(error.response);
+        console.log("error");
       }
     },
   },
   created() {
-    this.getCategory(),
-      this.$watch(
-        () => this.$route.params,
-        (toParams, previousParams) => {
-          // react to route changes...
-          this.getCategory();
-        }
-      );
+    this.getCategory();
+  },
+  watch: {
+    $route(to, from) {
+      if (to.name === "category") {
+        this.getCategory();
+      }
+    },
   },
 };
 </script>
