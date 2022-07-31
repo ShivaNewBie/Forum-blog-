@@ -84,8 +84,8 @@ export default {
       let endpoint = "/api/v1/categories/";
       try {
         const response = await axios.get(endpoint);
-        this.categories = response.data.results;
-        // console.log(response.data.results);
+        this.categories = response.data;
+        console.log(response.data);
       } catch (error) {
         console.log(error);
       }

@@ -29,6 +29,8 @@ class CategoryCreateAPIView(generics.CreateAPIView):
 class CategoryList(generics.ListAPIView):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
+    pagination_class = None
+
 
 class CategoryDetail(generics.RetrieveDestroyAPIView):
     queryset = Category.objects.all()
