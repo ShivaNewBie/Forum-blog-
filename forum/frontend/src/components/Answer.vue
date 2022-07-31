@@ -48,6 +48,7 @@ export default {
       likesCounter: this.answer.likes_count,
     };
   },
+  emits: ["delete-answer"],
   props: {
     uuid: {
       type: String,
@@ -90,6 +91,7 @@ export default {
       this.$emit("delete-answer", this.answer);
     },
   },
+
   computed: {
     isAnswerAuthor() {
       return this.answer.author == this.requestUser;
